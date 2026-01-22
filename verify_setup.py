@@ -48,6 +48,29 @@ def verify_imports():
         print(f"✗ Failed to read config.py: {e}")
         return False
 
+    # Check database module structure
+    try:
+        with open("app/database.py", "r") as f:
+            content = f.read()
+            required_elements = [
+                "from sqlalchemy.ext.asyncio import",
+                "create_async_engine",
+                "async_sessionmaker",
+                "Base = declarative_base()",
+                "engine =",
+                "AsyncSessionLocal =",
+                "async def get_db_session",
+            ]
+            for element in required_elements:
+                if element in content:
+                    print(f"✓ Database module contains {element}")
+                else:
+                    print(f"✗ Database module missing {element}")
+                    return False
+    except Exception as e:
+        print(f"✗ Failed to read database.py: {e}")
+        return False
+
     # Check test module structure
     try:
         with open("tests/test_config.py", "r") as f:
@@ -68,6 +91,26 @@ def verify_imports():
         print(f"✗ Failed to read test_config.py: {e}")
         return False
 
+    # Check database test module structure
+    try:
+        with open("tests/test_database.py", "r") as f:
+            content = f.read()
+            required_tests = [
+                "def test_engine_created",
+                "def test_session_factory_created",
+                "async def test_get_db_session_yields_session",
+                "def test_base_created",
+            ]
+            for test in required_tests:
+                if test in content:
+                    print(f"✓ Database test file contains {test}")
+                else:
+                    print(f"✗ Database test file missing {test}")
+                    return False
+    except Exception as e:
+        print(f"✗ Failed to read test_database.py: {e}")
+        return False
+
     # Check required files exist
     required_files = [
         "requirements.txt",
@@ -75,12 +118,20 @@ def verify_imports():
         ".gitignore",
         "README.md",
         "app/__init__.py",
+        "app/config.py",
+        "app/database.py",
         "app/models/__init__.py",
         "app/schemas/__init__.py",
         "app/routers/__init__.py",
         "app/services/__init__.py",
         "app/middleware/__init__.py",
         "tests/__init__.py",
+        "tests/test_config.py",
+        "tests/test_database.py",
+        "alembic.ini",
+        "alembic/env.py",
+        "alembic/script.py.mako",
+        "pytest.ini",
     ]
 
     for file_path in required_files:
