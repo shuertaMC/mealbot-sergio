@@ -22,38 +22,37 @@ from app.middleware.auth import (
 
 # Test RSA key pair (for testing only)
 # These are NOT real keys and should never be used in production
-# They are synthetic test fixtures for JWT token generation in tests
+# They are valid test fixtures for JWT token generation in tests
 def get_test_private_key():
     """Return a test-only RSA private key for JWT signing in tests."""
-    # This is a synthetic test key - not a real credential
+    # This is a valid test key generated for testing purposes only
     parts = [
         "-----BEGIN RSA PRIVATE KEY-----",
-        "MIIEpAIBAAKCAQEAu1SU1LfVLPHCozMxH2Mo4lgOEePzNm0tRgeLezV6ffAt0gun",
-        "VTLw7onLRnrq0/IzW7yWR7QkrmBL7jTKEn5u+qKhbwKfBstIs+bMY2Zkp18gnTxK",
-        "LxoS2tFczGkPLPgizskuemMghRniWaoLcyehkd3qqGElvW/VDL5AaWTg0nLVkjRo",
-        "9z+40RQzuVaE8AkAFmxZzow3x+VJYKdjykkJ0iT9wCS0DRTXu269V264Vf/3jvre",
-        "dZVBSmEBX4PjgJHHKEwCrv3dXKBgmzLWGHQgLfJPrU6R8lPe0pj6HVWWL0s3t9Q3",
-        "RqYzFTfQBREQtXqMRgAaQiV4W1FBjPFCqVE7vQIDAQABAoIBAB7EHK8l3tFDfxuZ",
-        "VY9hIi9p5bEy5AQqQWy1mz4KPKLbQl6K6VKx9r0xGLqG1q8RRt6BqxJDTVBTSPmK",
-        "tIrfM8Lp6FdmLz0e7A3mVKGRaKwHYE1J8WIzh6JN6U7PfXD7GSZQ3AqFf/P9XCKH",
-        "5zN9J7C1gxVKqBn0cFfIwBQ8hcFZvKYL0sV7fUXqgOKqhHAEULwp8pMjm+vDSzJz",
-        "kLYfCiPfFCJqQLLqHSwS6B9SqMqEbXpNr3Pz0HHLaTfm3GxnQmvmI6TXU8g0u9Rv",
-        "TYYvuVFCxcNsw1gy4GCKsCqgSGLN1DqEQAjJGCqLmRLkVEwFqFv8fPHMqD3Q0kgx",
-        "pxYBfAECgYEA6mY5uo9aErYJK3r0nE2YjLbTELVH0QXE4GJj0LS9o/YU1OC5PQXR",
-        "WYF3NxVd0QqLjS9cGJl2Y3GlLYwAF6U/qQi4gOxm4dHKvLqFjJLPn8hGKVBc9UKI",
-        "xdccXfUyBpXQXrQpn9UcPpUHnTBQCQaKBMNqvLwlI3lfKLGJBJLbvv0CgYEAzHY6",
-        "aMZQF7dH7yGqZqZ6lKEQLcGI8LWJyCKClCKVqQlQcU0Vqm4N9Y6SG4vJrqFbHqnD",
-        "VPdCQKG2VQS7wXE2I4Qmq6KKZVqJQqLMX4/B8OHxpVKLAE9q6lOGJmKTCB0TQKLS",
-        "lvoL7pQPTpGPQfBhKLPqZz4h5L5LQwXYnZF3sAECgYEAoP+zXRBGjxJQFGXqFr3b",
-        "0EpwPQmKj8QF4sCKLb4X8kJQoLKGI5E0QQkKpGPQvLVcHqQpZqYzNPXGSZQKp0YW",
-        "YVB4OyKqFJwQHLPcPBXhKC0aPNxLqE7c5u4TqKLV8FVGqb0KGIXW1VcP6JDGnXzd",
-        "1L3NcXqQm5VqMJqQxQYXFe0CgYBq/oc9F8vPnHlFZdMDrPp3kEqkLY5cxC5LJlwx",
-        "uyVZW1ygZmJ0QvJrYPJP8DqKPdNhPQlFI9wLLGqFU5GWCqRVeY8kPQqDOqHsQWJq",
-        "lJaqkQvJ3qFKqGJnqFwlJQqYHhJLqGJKqFHLVqHqLFJqQkWFqJYWqFJqQYVFqKYq",
-        "AQKBgQCm8yxvLQ5hLqVQqLJqQvLVqLJqQvVLqHqQvLqJYWqYVqKqFJqQqYLqJqYq",
-        "VqKYqYWqLqJqYVqKqYqLqJYWqYVqKqYqLJqQqYqLqJYqQvLqHqQvLqJYWqYVqKqF",
-        "JqQqYLqJqYqVqKYqYWqLqJqYVqKqYqLqJYWqYVqKqYqLJqQqYqLqJYqQvLqHqQvL",
-        "qJYWqYVqKqFJqQqYqLqJqYqVqKYqYA==",
+        "MIIEowIBAAKCAQEAzIzdfPQeL9o/kJOOVvP6IsYfh8T5+t9gjCKhMYQ0H9z0yZ+d",
+        "ebPGQlNc3i+x+tdmuSDGMhGYs+rGuuL+HwEhyY7HbzlMcAs+LDza7RkJsSYuyQzQ",
+        "gC+Q2zrZpk5te+4QH8+l5NpXayXTnlPp5q3SHi3fuH9Sam3ZItK3q3sTKR7OVXs6",
+        "8wySN+/Q3OOWmGkgrAYL8H1qrJ5JqS4CKDtq4C905ABq7abevIFA+wocuDyExFpT",
+        "iNsnRrbFFjP2Ww5kuXAVlBlzm6hXKMDcy26f+BDnz/LvAHhu9SsGAPtuOjbdd3Yn",
+        "yRaEVhsCXDsRVeisr8M/sgb2eFaZaAIpzBAJPQIDAQABAoIBAALHPaGBme2QKZGP",
+        "y4Mw76dF9e4sz2Q1FGh63O66/k+mrn8Ux0Y8pwP5Tv2oLxYg4FqOqfQXcWTgmrmC",
+        "aHpPB3o0UZwLYddaWiPhx+uoZ1o/K97O6Rl6OLdQx12FdOIiyhgtUUvFNaKoYh7+",
+        "269M+GZkCZ6fWuUREzEW1+gam37d6Vj8QTZtJQQ2Hte3diI83JpU4YqcyRJiye5y",
+        "h0qfBNWKZbfiUvMmg1MNPnRs6Ag1aTXWsgWutjBrLrXHcp/KR1sVDD1g3KCukLhE",
+        "sqM9r5YH9l8v31i4y21V7LHSt6+Zq5K+sU6cqRFuu4SOlqHx6UKT+KNF90V3g52H",
+        "MjFNNyECgYEA/upyibp3l2nVTflZm2n6dmrSPBIRqshUNZt6sKR4GzcIoWpoOTWO",
+        "hksSA8wD+rb60ginYinYtWFrR9ApNmh3bGGR9JXzPUiOkreGFftMjt60JS1dpT7P",
+        "Ne4Z8exLFYF4ipOT7m+RuevMKXlTKv/UeDmSUThSn0e1gTgJ344vj50CgYEAzWuU",
+        "Z7BvEBIfcTwASDLge3clGFRayULYuA6LxxjGlpQE2+DFNP2aNwGdDO8/SiJRPLDx",
+        "AIiZmNdehQkG8DHUks5ErYgMlgXMRnP054ejhL/SLunkqxCbiJ/VyFvHMXIjSmMy",
+        "M+myqtb1x6Xy7pDvuPGsk8GO6XqEDYUbs3U4viECgYAy2HCgKCFSgjmZo/LLnQfo",
+        "NsZYVQJRHkQtrSV7tlJ+myuNhrvjLVuQTcj6GOdySq0c170LR22CQDw1xr9xqsSn",
+        "SY7jSkWKI77MZO7J06YhmSo1gCb9ntmV2Dg0mP0g/QIeIfGPzZEzlGTUoO6F1SF8",
+        "GX+l06YnPxZk/9h4TtQNwQKBgHND2GROZiOYZ7g8ONRKaBgfhNsgCklAjybIUrqH",
+        "Nner2wYeG8peOzh+WUe2v8azdu4dQz5PaBCRWOJBbHk/HM67m2HcI2PTIQqvak64",
+        "l5KXqDLW3471pLCHL4hbp2whZZgKDVN/4NdoA0Xh4mznOvyF75aBV9W+/3YuqJqM",
+        "PijBAoGBALJZCugd1APqWdnbyY7cvEUEWKuCbJp7sJ4+BgdMkwiqL7zMngJVL3ec",
+        "gUPuEbVBmoIB5EtnKjgNe7cfgX7WedlG38uMuWwiWGoSfkTSMP8BTwpLM3/KzNji",
+        "kBirs9kZEAiePGuWQRqU4PmB9UK3p/vDTDjc/MqaQsQ4pYI/6RvX",
         "-----END RSA PRIVATE KEY-----"
     ]
     return "\n".join(parts)
@@ -63,26 +62,25 @@ TEST_PRIVATE_KEY = get_test_private_key()
 
 def get_test_public_key():
     """Return a test-only X.509 certificate for JWT verification in tests."""
-    # This is a synthetic test certificate - not a real credential
+    # This is a valid test certificate generated for testing purposes only
     parts = [
         "-----BEGIN CERTIFICATE-----",
-        "MIIDDTCCAfWgAwIBAgIJAMc6LrHJQr0yMA0GCSqGSIb3DQEBCwUAMCMxITAfBgNV",
-        "BAMMGHRlc3QubWVhbGJvdC5hdXRoMC5jb20wHhcNMjQwMTAxMDAwMDAwWhcNMzQw",
-        "MTAxMDAwMDAwWjAjMSEwHwYDVQQDDBh0ZXN0Lm1lYWxib3QuYXV0aDAuY29tMIIB",
-        "IjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu1SU1LfVLPHCozMxH2Mo4lgO",
-        "EePzNm0tRgeLezV6ffAt0gunVTLw7onLRnrq0/IzW7yWR7QkrmBL7jTKEn5u+qKh",
-        "bwKfBstIs+bMY2Zkp18gnTxKLxoS2tFczGkPLPgizskuemMghRniWaoLcyehkd3q",
-        "qGElvW/VDL5AaWTg0nLVkjRo9z+40RQzuVaE8AkAFmxZzow3x+VJYKdjykkJ0iT9",
-        "wCS0DRTXu269V264Vf/3jvredZVBSmEBX4PjgJHHKEwCrv3dXKBgmzLWGHQgLfJP",
-        "rU6R8lPe0pj6HVWWL0s3t9Q3RqYzFTfQBREQtXqMRgAaQiV4W1FBjPFCqVE7vQID",
-        "AQABo1AwTjAdBgNVHQ4EFgQU4J0cK0SbLqC5dLGzL9hGIFMFYFIwHwYDVR0jBBgw",
-        "FoAU4J0cK0SbLqC5dLGzL9hGIFMFYFIwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0B",
-        "AQsFAAOCAQEAqiQfRxfQpN0g1gXL9rCGJqHnIvmFr8LI/0ycDYiGZEfj7dQgN2P0",
-        "LFi/HH4cE2S5h8I1Y7kB6qVQW5CvQZ5J7iQJ0Gqm1bFgr5FqJQq5aL8J7cQqF9J7",
-        "qFJqQqL9qFJqQqL9qFJqQqL9qFJqQqL9qFJqQqL9qFJqQqL9qFJqQqL9qFJqQqL9",
-        "qFJqQqL9qFJqQqL9qFJqQqL9qFJqQqL9qFJqQqL9qFJqQqL9qFJqQqL9qFJqQqL9",
-        "qFJqQqL9qFJqQqL9qFJqQqL9qFJqQqL9qFJqQqL9qFJqQqL9qFJqQqL9qFJqQqL9",
-        "qFJqQqL9qA==",
+        "MIICzjCCAbagAwIBAgIUFoqY7ZNPm29JvjZsJjFugbtRpiQwDQYJKoZIhvcNAQEL",
+        "BQAwITEfMB0GA1UEAwwWdGVzdC5tZWFsYm90LmF1dGgwLmNvbTAeFw0yNDAxMDEw",
+        "MDAwMDBaFw0zNDAxMDEwMDAwMDBaMCExHzAdBgNVBAMMFnRlc3QubWVhbGJvdC5h",
+        "dXRoMC5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDMjN189B4v",
+        "2j+Qk45W8/oixh+HxPn632CMIqExhDQf3PTJn515s8ZCU1zeL7H612a5IMYyEZiz",
+        "6sa64v4fASHJjsdvOUxwCz4sPNrtGQmxJi7JDNCAL5DbOtmmTm177hAfz6Xk2ldr",
+        "JdOeU+nmrdIeLd+4f1Jqbdki0rerexMpHs5VezrzDJI379Dc45aYaSCsBgvwfWqs",
+        "nkmpLgIoO2rgL3TkAGrtpt68gUD7Chy4PITEWlOI2ydGtsUWM/ZbDmS5cBWUGXOb",
+        "qFcowNzLbp/4EOfP8u8AeG71KwYA+246Nt13difJFoRWGwJcOxFV6Kyvwz+yBvZ4",
+        "VploAinMEAk9AgMBAAEwDQYJKoZIhvcNAQELBQADggEBADaB0SYtobjdvKzEi+0s",
+        "FgcEBLpZ38/0Jsv/pD9vc9XS8UHrMvPk8XwmPye8amfbfvWNKpx7i4LFBQfyoVsC",
+        "Mpgm7w6opQZNcupHN6pZ46yN+BR3yi+qU6kKdQNG9bCeCgMA/ZkZYwHOPsIllF5X",
+        "ulSyLnNEZpQCPmxnUQx6vW5NSNBeYOZWKjdF63K8QiqtYaT6sH/dLKXlh4qQbfk3",
+        "PibN/nR/R0UgcVBsS7WVYytE1fTwQhjJZnuR4YpNciwoms5JJq6VAZ4FayrEVz2T",
+        "NvQvYCn+goR3iNJJjNmlGKpWO8FUdUBSLIIW2lEohrJYcO+Qm1tuLEN+HEixw6xq",
+        "sY8=",
         "-----END CERTIFICATE-----"
     ]
     return "\n".join(parts)
@@ -447,24 +445,36 @@ class TestVerifyToken:
     @pytest.mark.asyncio
     async def test_verify_token_invalid_signature(self, mock_auth0_settings, valid_token_payload):
         """Test verification fails for invalid signature."""
-        # Create token with different private key (synthetic test key for invalid signature test)
+        # Create token with different private key (valid test key for invalid signature test)
         def get_different_test_key():
-            """Return a different synthetic test key to simulate signature mismatch."""
+            """Return a different valid test key to simulate signature mismatch."""
             parts = [
                 "-----BEGIN RSA PRIVATE KEY-----",
-                "MIIEowIBAAKCAQEAwL0jxZKCHjgZ7FZC1n0pGK6Th7lG7qD0P4CKq+lUYGJ3vOH+",
-                "L3kXvZ0jH7yYFjW9Kp6LcKZqVNKfU5lF0cGE6m8QF6Z7vKqGT0gC1T5RhF6K7qFJ",
-                "YqLFJqQF7qFJYqLFJqQF7qFJYqLFJqQF7qFJYqLFJqQF7qFJYqLFJqQF7qFJYqLF",
-                "JqQF7qFJYqLFJqQF7qFJYqLFJqQF7qFJYqLFJqQF7qFJYqLFJqQF7qFJYqLFJqQF",
-                "7qFJYqLFJqQF7qFJYqLFJqQF7qFJYqLFJqQF7qFJYqLFJqQF7qFJYqLFJqQFvQID",
-                "AQABAoIBAB3zLqGvYF7Z+qKhbwKfBstIs+bMY2Zkp18gnTxKLxoS2tFczGkPLPgi",
-                "zskuemMghRniWaoLcyehkd3qqGElvW/VDL5AaWTg0nLVkjRo9z+40RQzuVaE8AkA",
-                "FmxZzow3x+VJYKdjykkJ0iT9wCS0DRTXu269V264Vf/3jvredZVBSmEBX4PjgJHH",
-                "KEwCrv3dXKBgmzLWGHQgLfJPrU6R8lPe0pj6HVWWL0s3t9Q3RqYzFTfQBREQtXqM",
-                "RgAaQiV4W1FBjPFCqVE7vQECgYEA6mY5uo9aErYJK3r0nE2YjLbTELVH0QXE4GJj",
-                "0LS9o/YU1OC5PQXRWYFKqLFJqQF7qFJYqLFJqQF7qFJYqLFJqQF7qAoIBAB3zLqG",
-                "vYF7Z+qKhbwKfBstIs+bMY2Zkp18gnTxKLxoS2tFczGkPLPgizskuemMghRniWao",
-                "LcyehkFJYqLFJqQF7qFJYqLFJqQF7qFJYqLFJqQF7qA=",
+                "MIIEpAIBAAKCAQEAnBd41ktLs1rQto2WGSCaaIxZvYpkw7xzhckUiPJLN6LmfSch",
+                "OyCiK+H638E5wGQxCnbvMpHib3gGsN5cC3JI4b4/XwbK3Vt8+WmkXMWkQFA51ApT",
+                "GfvJYEY9fSq+qgDSXdVhHF54z/rfrm8CfaT8v2jNc3V3xgB2+I1ntTf9p1+st0mB",
+                "Dk7tMMYtc1hmpw0E0s92H+WXV4d+9ULzSLWoyAhmXG89TPCeMqndwfjEhMDn0nhD",
+                "JpD/Yg4wQe/etjXUalMH7TwKM9tXReAhIble82w4JN3715FR8T0b0A4oM0/gIZI5",
+                "XPcgPyb8Jlf6sgmkQbG0SYV86+mMMndKIFS3aQIDAQABAoIBABQt/KidB2Zilppj",
+                "PO/MBT+q6sHUWH6YUx8NW02bysRLQnJqUqOAQ+GvJMM0tIX+Q1DPsNDgMglTLRpE",
+                "mlsTJVT58YYULLnoEATL9ucqLg1FJz9rLknXrAskSY1wWeyZ5UMi85u6ovJ7GTFF",
+                "7L6C9qIQUdoGv7tQvWYYxzroctnmaDjyiYwM76rws1hsUfaxwPvC/xcElRDVyIc6",
+                "8M2fWjfK7FtaRYwfivNi4YWFC7QCwMXM631unyTkThq4wguZWlgYQeCvyR/sW0qy",
+                "iu4JHHDOEHY5yHhSP9W7mN8GgwW3RRaa7PwEGUAJSyyNXVOhvs52ju7Wmn5PK8OW",
+                "U1/nMTkCgYEAxK0Ti/A4zDuhPvoX1qb+zyERsGGg7HaAIsLASWU4K79sGip79JCw",
+                "sOYY9oW6RcqO0MsJGcpJGFulKdQEKu72tFn/yka1oo0aiCD066iav2xiaVSk7m7/",
+                "1+brrgDbBapPj3YcBXgeqaPXOu8E3sSQq9iYrBRQB0lbN/vOm4rn1GMCgYEAyyyN",
+                "WAsOgMMtkHi9E3wLpCJNWP1YtRv2VpZGjieRzC6WFsmCSzifB+Z8P8r7XG6LTPnY",
+                "yzh7py+PL8CaR8egmZWTDioheRWEJDKAFBQPVxhWDUnw27ZHd0LWQVB6Mt1Krf88",
+                "pVUH15eWuRU535GRJitrF/U6VY8/sAsqwgPVUMMCgYEArvOvIZqNS8/3fggG0KE4",
+                "pZQrIhWWiwJWtZU8a42oy/G5/gSwwzs6kgH9Tr5ilta6+CzEabayEwLjBzRciLyN",
+                "pJ0ylwMTbAfNBC8c78zJ62JEoKH1HUyMNchq+hw0uPNpVpqgDpVt4UWnnfsk/+0n",
+                "LFa+aMSg8/pjNIfAoEiONTUCgYAPLaThjvHmbK5avKpjakD0YhulKkgWP6CHl3Jt",
+                "7EbYGiLcUPGK7Q/0ZyOhIGjm3ttJROENTYrvUn4/8wOTmTZGQwZZaIxXn2Pf0GYB",
+                "Gf6LYyYKmBuGTnfIURXwizKV2jJaDVdagp+zW3/HE+7e5OETGOtHPuq8uZbob+0h",
+                "0Wd+QQKBgQCjk2JCwllKhMHARLjQ26ezeaeVYy8ztEq2XeqVP9Lhv5DdrKQBLRZl",
+                "NXltR5jBlFyHZ38vXv4jIYUPGreIDoNr7gNUEViYnCwZ4iJzuOBhWSwwV4atUZ8i",
+                "S1BAwJN6w8pdlUWqzTj+EphhvvBiZZrNy90YpmKlT54eSilDa0hdvQ==",
                 "-----END RSA PRIVATE KEY-----"
             ]
             return "\n".join(parts)
