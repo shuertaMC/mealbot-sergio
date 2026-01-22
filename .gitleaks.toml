@@ -1,0 +1,11 @@
+# Gitleaks configuration
+# This file configures gitleaks to ignore test fixtures
+
+title = "Gitleaks configuration for Mealbot"
+
+# Allowlist test files containing synthetic keys
+[allowlist]
+description = "Test fixtures with synthetic RSA keys for JWT authentication testing"
+paths = [
+    '''tests/test_auth\.py''',
+]
