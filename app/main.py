@@ -1,10 +1,22 @@
 """FastAPI application initialization with middleware and routes."""
 
+import time
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+
+from app.config import get_settings
+from app.logging_config import setup_logging, get_logger
+
+# Setup logging before creating the app
+settings = get_settings()
+use_json_logs = settings.environment == "prod"
+setup_logging(log_level=settings.log_level, use_json=use_json_logs)
+
+logger = get_logger(__name__)
+logger.info(f"Starting Mealbot API in {settings.environment} environment")
 
 # Initialize FastAPI application
 app = FastAPI(
@@ -12,6 +24,50 @@ app = FastAPI(
     description="RESTful service for managing lunch/meal pairings for organizations",
     version="2.0.0",
 )
+
+
+# Request/Response logging middleware
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    """
+    Log incoming requests and responses with timing information.
+
+    This middleware:
+    - Logs request start (method, path, query params)
+    - Measures request duration
+    - Logs response completion (status code, duration)
+    """
+    start_time = time.time()
+
+    # Log incoming request
+    logger.info(
+        f"Request started: {request.method} {request.url.path}",
+        extra={
+            "method": request.method,
+            "path": request.url.path,
+            "query_params": str(request.query_params) if request.query_params else "",
+        }
+    )
+
+    # Process the request
+    response = await call_next(request)
+
+    # Calculate duration
+    duration = time.time() - start_time
+
+    # Log response
+    logger.info(
+        f"Request completed: {response.status_code}",
+        extra={
+            "status_code": response.status_code,
+            "duration_seconds": round(duration, 3),
+            "method": request.method,
+            "path": request.url.path,
+        }
+    )
+
+    return response
+
 
 # Configure CORS middleware to match Go implementation behavior
 # From cors.go lines 19-21:

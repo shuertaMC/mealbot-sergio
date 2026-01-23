@@ -68,6 +68,10 @@ class Settings(BaseSettings):
         default="dev",
         description="Environment name (dev, test, prod)"
     )
+    log_level: str = Field(
+        default="INFO",
+        description="Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)"
+    )
 
     model_config = SettingsConfigDict(
         env_file=".env",
