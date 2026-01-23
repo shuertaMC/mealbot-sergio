@@ -5,7 +5,7 @@ from functools import lru_cache
 from typing import Any, Dict, Optional
 
 import httpx
-from fastapi import HTTPException, Request, status
+from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
 from jose.exceptions import ExpiredSignatureError, JWTClaimsError
@@ -250,7 +250,7 @@ async def verify_token(token: str) -> Dict[str, Any]:
 
 async def get_current_user(
     request: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = None,
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
 ) -> Dict[str, Any]:
     """
     FastAPI dependency for protecting endpoints with JWT authentication.
