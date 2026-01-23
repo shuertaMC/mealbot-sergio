@@ -73,7 +73,7 @@ class TestSetupLogging:
             assert "message" in log_data
             assert log_data["message"] == "Test message"
             assert "logger" in log_data
-            assert log_data["logger"] == "python"
+            assert log_data["logger"] == "logrus"
             assert "level" in log_data
             assert log_data["level"] == "INFO"
         except json.JSONDecodeError:
@@ -181,7 +181,7 @@ class TestCustomJsonFormatter:
         log_data = json.loads(output)
 
         # Verify required fields
-        assert log_data["logger"] == "python"
+        assert log_data["logger"] == "logrus"
         assert log_data["level"] == "INFO"
         assert log_data["function"] == "test_function"
         assert log_data["message"] == "Test message"
@@ -213,7 +213,7 @@ class TestCustomJsonFormatter:
         assert log_data["status"] == 404
         assert log_data["function"] == "custom_func"
         assert log_data["message"] == "Test message"
-        assert log_data["logger"] == "python"
+        assert log_data["logger"] == "logrus"
 
 
 class TestLoggingIntegration:
@@ -244,7 +244,7 @@ class TestLoggingIntegration:
 
         assert log_data["message"] == "Database connection failed"
         assert log_data["level"] == "ERROR"
-        assert log_data["logger"] == "python"
+        assert log_data["logger"] == "logrus"
         assert log_data["status"] == 500
         assert log_data["function"] == "create_organization"
 

@@ -24,7 +24,7 @@ class CustomJsonFormatter(jsonlogger.JsonFormatter):
         super().add_fields(log_record, record, message_dict)
 
         # Add logger field (matches logrus "logger": "logrus")
-        log_record['logger'] = 'python'
+        log_record['logger'] = 'logrus'
 
         # Add level field
         log_record['level'] = record.levelname
