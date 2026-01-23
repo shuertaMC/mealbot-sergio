@@ -31,6 +31,12 @@ class OrganizationRead(BaseModel):
         from_attributes = True
 
 
+class OrganizationCreateBody(BaseModel):
+    """Schema for POST /org request body."""
+
+    org: str = Field(..., min_length=1, description="Organization name")
+
+
 class CrossMatchTraitUpdate(BaseModel):
     """Schema for updating cross match trait via POST /crossmatchtrait."""
 

@@ -3,12 +3,15 @@
 import time
 from pathlib import Path
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, status
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.config import get_settings
 from app.logging_config import setup_logging, get_logger
+from app.routers import organizations
 
 # Setup logging before creating the app
 settings = get_settings()
@@ -24,6 +27,23 @@ app = FastAPI(
     description="RESTful service for managing lunch/meal pairings for organizations",
     version="2.0.0",
 )
+
+
+# Custom exception handler to convert 422 validation errors to 400
+# This matches Go implementation behavior where validation errors return 400 Bad Request
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    """
+    Convert FastAPI validation errors (422) to 400 Bad Request.
+
+    This handler ensures that validation errors return 400 status code
+    to match the behavior of the Go implementation, which returns 400
+    for all request validation failures.
+    """
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        content={"detail": exc.errors()},
+    )
 
 
 # Request/Response logging middleware
@@ -93,6 +113,9 @@ app.add_middleware(
 # This prevents path resolution issues when starting the server from different directories
 static_dir = Path(__file__).parent.parent / "static"
 app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+
+# Register API routers
+app.include_router(organizations.router, tags=["organizations"])
 
 
 @app.get("/health")
