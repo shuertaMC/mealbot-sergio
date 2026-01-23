@@ -6,6 +6,17 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+from app.config import get_settings
+from app.logging_config import setup_logging, get_logger
+
+# Setup logging before creating the app
+settings = get_settings()
+use_json_logs = settings.environment == "prod"
+setup_logging(log_level=settings.log_level, use_json=use_json_logs)
+
+logger = get_logger(__name__)
+logger.info(f"Starting Mealbot API in {settings.environment} environment")
+
 # Initialize FastAPI application
 app = FastAPI(
     title="Mealbot API",

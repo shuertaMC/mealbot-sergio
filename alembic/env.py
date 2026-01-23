@@ -15,7 +15,8 @@ from app.database import Base
 
 # Import all models here to ensure they're registered with Base.metadata
 # As models are created in future tasks, they should be imported here
-# from app.models.organization import Organization
+from app.models.organization import Organization  # noqa: F401
+
 # from app.models.member import Member
 # from app.models.round import Round
 # from app.models.pair import Pair

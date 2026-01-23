@@ -85,10 +85,14 @@ class TestDeclarativeBase:
         assert Base is not None
         assert hasattr(Base, "metadata")
 
-    def test_base_metadata_is_empty_initially(self):
-        """Verify that the base metadata starts empty (no models defined yet)."""
-        # Since no models are created in this task, metadata should be empty
-        assert len(Base.metadata.tables) == 0
+    def test_base_metadata_has_registered_models(self):
+        """Verify that the base metadata contains registered models."""
+        # Import the models to ensure they're registered
+        from app.models import Organization  # noqa: F401
+
+        # After importing models, metadata should contain the organizations table
+        assert len(Base.metadata.tables) > 0
+        assert "organizations" in Base.metadata.tables
 
 
 @pytest.mark.asyncio
