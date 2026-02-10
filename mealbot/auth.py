@@ -31,17 +31,24 @@ async def _get_jwks() -> dict:
         return _jwks_cache
 
 
-def _get_rsa_key(token: str, jwks: dict) -> dict | None:
+def _get_pem_certificate(token: str, jwks: dict) -> str | None:
+    """Extract PEM certificate from JWKS using X5C, matching Go's getPEMCertificate.
+
+    The Go code matches the token's kid header against JWKS keys and
+    constructs a PEM certificate from the X5C field.
+    """
     unverified_header = jwt.get_unverified_header(token)
+    kid = unverified_header.get("kid")
+
     for key in jwks.get("keys", []):
-        if key["kid"] == unverified_header.get("kid"):
-            return {
-                "kty": key["kty"],
-                "kid": key["kid"],
-                "use": key["use"],
-                "n": key["n"],
-                "e": key["e"],
-            }
+        if key.get("kid") == kid:
+            x5c = key.get("x5c")
+            if x5c and len(x5c) > 0:
+                return (
+                    "-----BEGIN CERTIFICATE-----\n"
+                    + x5c[0]
+                    + "\n-----END CERTIFICATE-----"
+                )
     return None
 
 
@@ -66,14 +73,14 @@ async def get_current_user(
     token = credentials.credentials
     try:
         jwks = await _get_jwks()
-        rsa_key = _get_rsa_key(token, jwks)
-        if rsa_key is None:
+        pem_cert = _get_pem_certificate(token, jwks)
+        if pem_cert is None:
             logger.error("Unable to find appropriate key")
             return None
 
         payload = jwt.decode(
             token,
-            rsa_key,
+            pem_cert,
             algorithms=ALGORITHMS,
             audience=AUDIENCE,
             issuer=ISSUER,
