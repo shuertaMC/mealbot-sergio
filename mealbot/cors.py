@@ -1,5 +1,38 @@
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+from starlette.responses import Response
+
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+
+ALLOWED_HEADERS = "Authorization, Content-Type, Origin, Accept, token"
+ALLOWED_METHODS = "GET, POST, DELETE"
+
+
+class OriginReflectionCORSMiddleware(BaseHTTPMiddleware):
+    """CORS middleware that reflects the request Origin header.
+
+    Matches Go cors.go behavior: sets Access-Control-Allow-Origin to the
+    request's Origin header value, and short-circuits OPTIONS preflight
+    requests.
+    """
+
+    async def dispatch(self, request: Request, call_next) -> Response:
+        origin = request.headers.get("origin", "")
+
+        if request.method == "OPTIONS":
+            response = Response(status_code=200)
+            if origin:
+                response.headers["Access-Control-Allow-Origin"] = origin
+            response.headers["Access-Control-Allow-Headers"] = ALLOWED_HEADERS
+            response.headers["Access-Control-Allow-Methods"] = ALLOWED_METHODS
+            return response
+
+        response = await call_next(request)
+        if origin:
+            response.headers["Access-Control-Allow-Origin"] = origin
+        response.headers["Access-Control-Allow-Headers"] = ALLOWED_HEADERS
+        response.headers["Access-Control-Allow-Methods"] = ALLOWED_METHODS
+        return response
 
 
 def setup_cors(app: FastAPI) -> None:
@@ -9,10 +42,4 @@ def setup_cors(app: FastAPI) -> None:
     GET, POST, DELETE methods with Authorization, Content-Type, Origin,
     Accept, and token headers.
     """
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
-        allow_credentials=True,
-        allow_methods=["GET", "POST", "DELETE"],
-        allow_headers=["Authorization", "Content-Type", "Origin", "Accept", "token"],
-    )
+    app.add_middleware(OriginReflectionCORSMiddleware)
