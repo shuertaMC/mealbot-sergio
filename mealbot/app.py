@@ -7,6 +7,7 @@ from mealbot.auth import require_auth
 from mealbot.config import get_port
 from mealbot.cors import setup_cors
 from mealbot.log import setup_logging
+from mealbot.members import members_handler
 from mealbot.org import (
     create_organization_handler,
     cross_match_trait_handler,
@@ -52,6 +53,14 @@ def create_app():
         "/crossmatchtrait",
         endpoint="crossmatchtrait",
         view_func=require_auth(cross_match_trait_handler),
+        methods=all_methods,
+    )
+
+    # Register members endpoint (Milestone 2)
+    app.add_url_rule(
+        "/members",
+        endpoint="members",
+        view_func=require_auth(members_handler),
         methods=all_methods,
     )
 
